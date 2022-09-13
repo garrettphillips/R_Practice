@@ -1,29 +1,32 @@
-# Load necessary packages
-library(lme4)      # If you need to install these, run install.packages("lme4")
+## Install and load necessary packages
+install.packages(lme4)
+library(lme4)      
 
-# Load data
-setwd("C:/Users/Garrett/Documents/Spring 21/MKT 4480")
+## Load data
+setwd()
 car.conjoint<- read.csv("Car Conjoint Data.csv", stringsAsFactors = TRUE)
 
-# Estimate conjoint model
+## Estimate conjoint model
 
-## Check codings (should be dummy coded for the easiest analysis)
+## Check codings (dummy coded)
 contrasts(car.conjoint$price) # default looks good
 
-contrasts(car.conjoint$brand) # This is fine, but the levels are not in the same order as in the case. Not a big deal, but let's fix that.
-car.conjoint$brand<- factor(car.conjoint$brand, levels=c("Toyota","Volkswagen","Saturn","Kia")) # If you run line 13 again, you'll see the contrasts were already reset.
+# Set levels to be same as case
+contrasts(car.conjoint$brand)
+car.conjoint$brand<- factor(car.conjoint$brand, levels=c("Toyota","Volkswagen","Saturn","Kia"))
 
-contrasts(car.conjoint$horsepower) # default looks good
+contrasts(car.conjoint$horsepower)
 
-contrasts(car.conjoint$upholstery) # default looks good
+contrasts(car.conjoint$upholstery)
 
-contrasts(car.conjoint$sunroof) # Let's fix the order again
+## Set levels Y/N
+contrasts(car.conjoint$sunroof)
 car.conjoint$sunroof<- factor(car.conjoint$sunroof, levels=c("Yes", "No"))
 
 ## Estimate model (additive model, accounting for repeated measurements)
 conjoint.model<- lmer(rating ~ price + brand + horsepower + upholstery + sunroof + (1|participant.id), data=car.conjoint)
 
-## We will use data from the summary later, so save the summary to a variable
+## Save summary to variable
 conjoint.summary<- summary(conjoint.model)
 conjoint.summary
 
@@ -92,7 +95,7 @@ round(conjoint.result, 2)
 ## Function that takes in features of a product and feature utilities from a conjoint model and outputs the product's overall utility
 
 get.utility<- function(features, utilities, utility.column=1){
-  # features must be a list or named vector with names like the columns of the original data set and values that correspond to possible levels (e.g., price = "$23,000")
+  # features must be a list or named vector with names like the columns of the original data set and values that correspond to possible levels
   # utilities must be a data frame with row names formatted like those in the 'conjoint.results' data frame above
   
   # Paste each name and value in 'features' together, to get the corresponding look up value in the 'utilities' vector, e.g., price = "$23,000" will become "price$23,000"
