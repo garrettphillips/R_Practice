@@ -1,5 +1,5 @@
 # Set Working DIrectory
-setwd("C:/Users/Garrett/Documents/Spring 21/MKT 4480")
+setwd("C:/Users/Garrett/Documents/____________")
 
 # Open data file
 dat<- read.csv("Professor Salary data.csv")
