@@ -1,5 +1,5 @@
-# Set Working DIrectory
-setwd("C:/Users/Garrett/Documents/____________")
+# Set working directory
+
 
 # Open data file
 dat<- read.csv("Professor Salary data.csv")
