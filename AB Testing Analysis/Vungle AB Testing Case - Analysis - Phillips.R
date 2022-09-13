@@ -1,5 +1,5 @@
 # Open Data File
-setwd("C:/Users/Garrett/Documents/Spring 21/MKT 4480")
+setwd()
 dat <- read.csv("Vungle AB Testing Case data.csv")
 
 # Descriptive Statistics
